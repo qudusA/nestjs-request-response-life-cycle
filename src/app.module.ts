@@ -1,5 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule, Scope } from '@nestjs/common';
-import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { HttpExceptionFilter } from './filters/http-exeception.filter';
@@ -13,6 +13,10 @@ import { RequestService } from './request.service';
   providers: [
     AppService,
     RequestService,
+    {
+      provide: APP_GUARD,
+      useClass: HttpExceptionFilter,
+    },
     {
       provide: APP_INTERCEPTOR,
       scope: Scope.REQUEST,
